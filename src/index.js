@@ -1,22 +1,24 @@
 module.exports = function toReadable (number) {
-    function toReadable(number) {
-        if (number >= 0 && number < 10) {
-            return upToTen(number)
-        } else if (number >= 10 && number < 20) {
-            return fromTenToTwenty(number)
-        } else if (number > 20 && number < 100) {
-            if (+number.toString()[1] === 0) {
-                return upToHundred(+number.toString()[0])
-            }
-            return upToHundred(+number.toString()[0]) + ' ' + upToTen(+number.toString()[1]);
-        } else if (number > 100 && number < 1000) {
-            if (+number.toString()[1] === 0) {
-                return upToThousand(+number.toString()[0]) + ' ' + upToTen(+number.toString()[2]);
-            } else if (+number.toString()[1] === 1) {
-                return upToThousand(+number.toString()[0]) + ' ' + fromTenToTwenty(+number.toString().slice(1, 3))
-            } else {
-                return upToThousand(+number.toString()[0]) + ' ' + upToHundred(+number.toString()[1]) + ' ' + upToTen(+number.toString()[2]);
-            }
+    if (number >= 0 && number < 10) {
+        return upToTen(number)
+    } else if (number >= 10 && number < 20) {
+        return fromTenToTwenty(number)
+    } else if (number >= 20 && number < 100) {
+        if (+number.toString()[1] === 0) {
+            return upToHundred(+number.toString()[0])
+        }
+        return upToHundred(+number.toString()[0]) + ' ' + upToTen(+number.toString()[1]);
+    } else if (number >= 100 && number < 1000) {
+        if (+number.toString()[1] === 0 && +number.toString()[2] === 0) {
+            return upToThousand(+number.toString()[0])
+        } else if (+number.toString()[1] === 0 && +number.toString()[2] !== 0) {
+            return upToThousand(+number.toString()[0]) + ' ' + upToTen(+number.toString()[2]);
+        } else if (+number.toString()[1] !== 0 && +number.toString()[2] === 0) {
+            return upToThousand(+number.toString()[0]) + ' ' + upToHundred(+number.toString()[1])
+        } else if (+number.toString()[1] === 1) {
+            return upToThousand(+number.toString()[0]) + ' ' + fromTenToTwenty(+number.toString().slice(1, 3))
+        } else {
+            return upToThousand(+number.toString()[0]) + ' ' + upToHundred(+number.toString()[1]) + ' ' + upToTen(+number.toString()[2]);
         }
     }
 
@@ -24,7 +26,7 @@ module.exports = function toReadable (number) {
         switch(number) {
             case 1 : return 'one hundred'
             break;
-            case 2 : return 'twenty hundred'
+            case 2 : return 'two hundred'
             break;
             case 3 : return 'three hundred'
             break;
@@ -45,6 +47,8 @@ module.exports = function toReadable (number) {
 
     function upToHundred(number){
         switch(number) {
+            case 1 : return 'ten'
+            break;
             case 2 : return 'twenty'
             break;
             case 3 : return 'thirty'
